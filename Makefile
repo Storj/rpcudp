@@ -70,8 +70,8 @@ publish: test
 
 
 lint: test
-	pep8 --ignore=E303,E251,E201,E202 ./storj-rpcudp --max-line-length=140
-	find ./storj-rpcudp -name '*.py' | xargs pyflakes
+	pep8 --ignore=E303,E251,E201,E202 ./storjrpcudp --max-line-length=140
+	find ./storjrpcudp -name '*.py' | xargs pyflakes
 
 
 # Break in case of bug!

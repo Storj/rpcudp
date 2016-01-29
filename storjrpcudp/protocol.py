@@ -9,7 +9,7 @@ from twisted.internet import reactor
 from twisted.internet import defer
 from twisted.python import log
 
-from storj-rpcudp.exceptions import MalformedMessage
+from storjrpcudp.exceptions import MalformedMessage
 
 class RPCProtocol(protocol.DatagramProtocol):
     noisy = False
@@ -21,7 +21,6 @@ class RPCProtocol(protocol.DatagramProtocol):
         """
         self._waitTimeout = waitTimeout
         self._outstanding = {}
-
     def datagramReceived(self, datagram, address):
         if self.noisy:
             log.msg("received datagram from %s" % repr(address))

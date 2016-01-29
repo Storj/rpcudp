@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 from setuptools import setup, find_packages
-from storj-rpcudp import version
+from storjrpcudp import version
 
 setup(
-    name="storj-rpcudp",
+    name="storjrpcudp",
     version=version,
     description="RPC via UDP",
     long_description=open("README.markdown").read(),
     author="Brian Muller",
     author_email="bamuller@gmail.com",
     license="MIT",
-    url="https://github.com/Storj/storj-rpcudp",
+    url="https://github.com/Storj/storjrpcudp",
     packages=find_packages(),
     requires=[
         "twisted.internet.protocol.DatagramProtocol", "umsgpack", "future"
