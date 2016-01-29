@@ -3,14 +3,14 @@ from setuptools import setup, find_packages
 from rpcudp import version
 
 setup(
-    name="rpcudp",
+    name="storj-rpcudp",
     version=version,
     description="RPC via UDP",
     long_description=open("README.markdown").read(),
     author="Brian Muller",
     author_email="bamuller@gmail.com",
     license="MIT",
-    url="http://github.com/bmuller/rpcudp",
+    url="https://github.com/Storj/storj-rpcudp",
     packages=find_packages(),
     requires=[
         "twisted.internet.protocol.DatagramProtocol", "umsgpack", "future"
