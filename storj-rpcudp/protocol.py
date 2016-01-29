@@ -9,7 +9,7 @@ from twisted.internet import reactor
 from twisted.internet import defer
 from twisted.python import log
 
-from rpcudp.exceptions import MalformedMessage
+from storj-rpcudp.exceptions import MalformedMessage
 
 class RPCProtocol(protocol.DatagramProtocol):
     noisy = False
