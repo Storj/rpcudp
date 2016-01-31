@@ -1,5 +1,7 @@
 import os
 import umsgpack
+import socket
+import time
 from hashlib import sha1
 from base64 import b64encode
 from builtins import str
@@ -24,6 +26,19 @@ class RPCProtocol(protocol.DatagramProtocol):
         """
         self._waitTimeout = waitTimeout
         self._outstanding = {}
+
+    def send_all(self, data, address, timeout=5):
+        future = time.time() + timeout
+        while time.time() < future:
+            try:
+                self.transport.write(data, address)
+                break
+            except socket.error as e:
+                if e.errno == 11:
+                    time.sleep(0.001)
+                else:
+                    raise socket.error(e)
+
     def datagramReceived(self, datagram, address):
         if self.noisy:
             log.msg("received datagram from %s" % repr(address))
@@ -75,7 +90,7 @@ class RPCProtocol(protocol.DatagramProtocol):
         if self.noisy:
             log.msg("sending response for msg id %s to %s" % (b64encode(msgID), address))
         txdata = RESPONSE_BYTE + msgID + umsgpack.packb(response)
-        self.transport.write(txdata, address)
+        self.send_all(txdata, address)
 
     def _timeout(self, msgID):
         args = (b64encode(msgID), self._waitTimeout)
@@ -101,7 +116,7 @@ class RPCProtocol(protocol.DatagramProtocol):
             txdata = REQUEST_BYTE + msgID + data
             if self.noisy:
                 log.msg("calling remote function %s on %s (msgid %s)" % (name, address, b64encode(msgID)))
-            self.transport.write(txdata, address)
+            self.send_all(txdata, address)
             d = defer.Deferred()
             timeout = reactor.callLater(self._waitTimeout, self._timeout, msgID)
             self._outstanding[msgID] = (d, timeout)
