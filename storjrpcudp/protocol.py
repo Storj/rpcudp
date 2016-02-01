@@ -34,7 +34,7 @@ class RPCProtocol(protocol.DatagramProtocol):
                 self.transport.write(data, address)
                 break
             except socket.error as e:
-                if e.errno == 11:
+                if e.errno in (11, 10055):
                     time.sleep(0.001)
                 else:
                     raise socket.error(e)
